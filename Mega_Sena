@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+void preencher();
+
+int controle[6];
+
+void main(){
+	
+	srand(time(NULL));
+	int i, j, num, aux, vet[6], sorteados[6], acertos=0;
+	
+	for(j=0; j < 6; j++){
+		aux = rand() % 60+1;
+		sorteados[j] = aux;
+
+		for(i=0; i < j; i++){
+			while(sorteados[i] == aux){
+				aux = rand() % 60+1;
+				sorteados[j] = aux;
+				j=0;
+			}
+		}
+	}
+	preencher();
+	i=0;
+	while(i != 6){
+		printf("Digite um numero entre 1 e 60: ");
+		scanf("%d", &num);
+		
+		while(num < 1 || num > 60){
+			printf("\nNumero invalido, digite novamente: ");
+			scanf("%d", &num);
+		}
+		controle[i] = num;
+		for(j=0; j < i; j++){
+			while(controle[j] == num){
+				printf("\nNumero ja digitado, digite novamente: ");
+				scanf("%d", &num);
+				j=0;
+			}
+			vet[i] = num;
+			controle[i] = num;
+		}
+		vet[i] = num;
+		i++;
+			
+	}
+	
+	for(i=0; i < 6; i++){
+		for(j=0; j < 6; j++){
+			if(vet[j] == sorteados[i]){
+				acertos++;
+			}	
+		}
+	}
+	printf("=============NUMEROS SORTEADOS=============\n");
+	printf("              ");
+	for(i=0; i < 6; i++){
+		printf("%d ", sorteados[i]);
+	}
+	printf("\n===========================================");
+	
+	switch(acertos){
+		case 4: printf("\nFez 04 acertos, fez a quadra!!");
+		break;
+		case 5: printf("\nFez 05 acertos, fez a quina!!");
+		break;
+		case 6: printf("\nAcertou tudo, ficou rico, fez a sena!!");
+		break;
+		default:printf("\nACERTOS: %d", acertos);
+		break;
+	}
+
+}
+
+void preencher(){
+	int i;
+	for(i=0; i < 6; i++){
+		controle[i] = 0;
+	}
+}
